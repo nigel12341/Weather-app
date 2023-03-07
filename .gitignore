@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 *.env
 .firebase
+weather backend/src/main/resources/application-dev.properties
+weather backend/src/main/resources/application-development.properties
+weather backend/src/main/resources/application.properties
