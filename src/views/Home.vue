@@ -2,15 +2,10 @@
 <ShortWeatherMessage/>
 </template>
 
-<script>
+<script lang="ts">
 import ShortWeatherMessage from "../components/ShortWeatherMessage.vue";
-
 export default {
   name: "Home",
   components: {ShortWeatherMessage}
 }
 </script>
-
-<style scoped>
-
-</style>

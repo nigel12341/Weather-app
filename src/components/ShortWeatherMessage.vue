@@ -6,7 +6,7 @@
   <p>{{lastUpdated}}</p>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "ShortWeatherMessage",
   data() {
