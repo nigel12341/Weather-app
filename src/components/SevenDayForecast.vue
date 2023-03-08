@@ -1,6 +1,6 @@
 <template>
   <div class="total">
-    <h2>7 Day Forecast</h2>
+    <h3>7 Day Forecast</h3>
     <section class="container forecastList" >
       <div class="card" v-for="weather in weatherMessage">
         <div class="card-body">
@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "SevenDayForecast",
   data() {
@@ -26,7 +26,7 @@ export default {
       ip: '',
     }
   },
-  async created() {
+  async mounted() {
     await this.getWeatherMessage();
   },
   methods: {
