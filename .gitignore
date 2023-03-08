@@ -22,7 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-*.env
+*.env.local
 .firebase
 weather backend/src/main/resources/application-dev.properties
 weather backend/src/main/resources/application-development.properties

@@ -31,13 +31,12 @@ export default {
       let data = await response.json();
       return data.ip
     },
-    //TODO switch to own backend to get weather data
+
     async getWeatherMessage() {
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
-          await fetch('https://api.weatherapi.com/v1/current.json?' + new URLSearchParams({
-            key: import.meta.env.VITE_WEATHER_API_KEY,
-            q: position.coords.latitude + ',' + position.coords.longitude
+          await fetch(import.meta.env.VITE_URL_API + '/v1/weather/current?' + new URLSearchParams({
+            location: position.coords.latitude + ',' + position.coords.longitude
           })).then(response => response.json()).then(data => {
             this.weatherMessage = `It is ${data.current.temp_c} degrees in ${data.location.name} right now with ${data.current.condition.text.toLowerCase()}.
         The wind is currently blowing at ${data.current.wind_kph} km/h in a ${data.current.wind_dir} direction.`;
@@ -46,9 +45,8 @@ export default {
           })
         }, async () => {
 
-          await fetch('https://api.weatherapi.com/v1/current.json?' + new URLSearchParams({
-            key: import.meta.env.VITE_WEATHER_API_KEY,
-            q: await this.getIpAdress(),
+          await fetch(import.meta.env.VITE_URL_API + '/v1/weather/current?' + new URLSearchParams({
+            location: await this.getIpAdress(),
           })).then(response => response.json()).then(data => {
             this.weatherMessage = `It is ${data.current.temp_c} degrees in ${data.location.name} right now with ${data.current.condition.text.toLowerCase()}.
         The wind is currently blowing at ${data.current.wind_kph} km/h in a ${data.current.wind_dir} direction.`;
