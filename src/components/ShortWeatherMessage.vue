@@ -1,7 +1,12 @@
 <template>
-  <h1>Welcome!</h1>
-  <img :src="icon" alt="Weather Icon"/>
-<h2>{{weatherMessage}}</h2>
+  <div v-if="weatherMessage" class="weatherSection">
+    <h1>Welcome!</h1>
+    <img :src="icon" alt="Weather Icon"/>
+    <h2>{{weatherMessage}}</h2>
+  </div>
+  <div v-else class="error-loading">
+    <h1>Woops! There was an error loading the weather. Please try again later.</h1>
+  </div>
 
   <p>{{lastUpdated}}</p>
 </template>
