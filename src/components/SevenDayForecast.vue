@@ -22,8 +22,8 @@ export default {
   name: "SevenDayForecast",
   data() {
     return {
-      weatherMessage: [],
-      ip: '',
+      weatherMessage: [] as any,
+      ip: '' as any,
     }
   },
   async mounted() {
@@ -41,7 +41,7 @@ export default {
         navigator.geolocation.getCurrentPosition(async (position) => {
           await fetch(import.meta.env.VITE_URL_API + '/v1/weather/forecast?' + new URLSearchParams({
             location: position.coords.latitude + ',' + position.coords.longitude,
-            days: 7
+            days: '7'
           })).then(response => response.json()).then(data => {
             this.weatherMessage = data.forecast.forecastday
           })
@@ -49,7 +49,7 @@ export default {
 
           await fetch(import.meta.env.VITE_URL_API + '/v1/weather/forecast?' + new URLSearchParams({
             location: await this.getIpAdress(),
-            days: 7
+            days: '7'
           })).then(response => response.json()).then(data => {
             this.weatherMessage = data.forecast.forecastday
           })

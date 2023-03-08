@@ -16,10 +16,10 @@ export default {
   name: "ShortWeatherMessage",
   data() {
     return {
-      weatherMessage: '',
-      ip: '',
-      icon: '',
-      lastUpdated: '',
+      weatherMessage: '' as any,
+      ip: '' as any,
+      icon: '' as any,
+      lastUpdated: '' as any,
     }
   },
   async created() {

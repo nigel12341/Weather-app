@@ -61,10 +61,10 @@ export default {
   },
   data() {
     return {
-      weatherMessage: '',
-      location: '',
-      ip: '',
-      astroData: ''
+      weatherMessage: '' as any,
+      location: '' as any,
+      ip: '' as any,
+      astroData: '' as any
     }
   },
   methods: {
