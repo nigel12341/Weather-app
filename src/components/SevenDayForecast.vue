@@ -1,5 +1,5 @@
 <template>
-  <div class="total">
+  <div v-if="weatherMessage === 0" class="total">
     <h3>7 Day Forecast</h3>
     <section class="container forecastList" >
       <div class="card" v-for="weather in weatherMessage">
@@ -44,6 +44,8 @@ export default {
             days: '7'
           })).then(response => response.json()).then(data => {
             this.weatherMessage = data.forecast.forecastday
+          }).catch(() => {
+            this.loadingStatus = 'error'
           })
         }, async () => {
 
@@ -52,6 +54,8 @@ export default {
             days: '7'
           })).then(response => response.json()).then(data => {
             this.weatherMessage = data.forecast.forecastday
+          }).catch(() => {
+            this.loadingStatus = 'error'
           })
         });
       }

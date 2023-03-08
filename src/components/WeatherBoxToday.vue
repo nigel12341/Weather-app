@@ -1,5 +1,5 @@
 <template>
-<section class="container card">
+<section v-if="loadingStatus === 'success'" class="container card">
 <h3>The weather today in {{ location.name }}, {{location.region}}</h3>
   <h1 class="temperatureDisplay">{{weatherMessage.temp_c}}°</h1>
     <ul class="list-group list-group-flush">
@@ -49,6 +49,16 @@
       <li class="list-group-item"></li>
     </ul>
 </section>
+
+    <div v-if="loadingStatus === 'loading'">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  <div v-if="loadingStatus === 'error'">
+
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -57,14 +67,14 @@ export default {
   mounted() {
     this.getWeatherMessage();
     this.getAstronomyData()
-
   },
   data() {
     return {
       weatherMessage: '' as any,
       location: '' as any,
       ip: '' as any,
-      astroData: '' as any
+      astroData: '' as any,
+      loadingStatus: 'loading' as any,
     }
   },
   methods: {
@@ -80,16 +90,30 @@ export default {
           await fetch(import.meta.env.VITE_URL_API + '/v1/weather/current?' + new URLSearchParams({
             location: position.coords.latitude + ',' + position.coords.longitude
           })).then(response => response.json()).then(data => {
-            this.weatherMessage = data.current
-            this.location = data.location
+            if(data.status) {
+              this.loadingStatus = 'error'
+            } else {
+              this.weatherMessage = data.current
+              this.location = data.location
+              this.loadingStatus = 'success'
+            }
+          }).catch(() => {
+            this.loadingStatus = 'error'
           })
         }, async () => {
 
           await fetch(import.meta.env.VITE_URL_API + '/v1/weather/current?' + new URLSearchParams({
             location: await this.getIpAdress(),
           })).then(response => response.json()).then(data => {
-            this.weatherMessage = data.current;
-            this.location = data.location
+            if(data.status) {
+              this.loadingStatus = 'error'
+            } else {
+              this.weatherMessage = data.current
+              this.location = data.location
+              this.loadingStatus = 'success'
+            }
+          }).catch(() => {
+            this.loadingStatus = 'error'
           })
         });
       }

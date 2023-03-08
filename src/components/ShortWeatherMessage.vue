@@ -4,8 +4,11 @@
     <img :src="icon" alt="Weather Icon"/>
     <h3>{{weatherMessage}}</h3>
   </div>
-  <div v-else class="error-loading">
-    <h1>Woops! There was an error loading the weather. Please try again later.</h1>
+  <div v-if='loadingStatus === "loading"' class="loading">
+    <h1>Loading data...</h1>
+  </div>
+  <div v-if="loadingStatus === 'error'">
+    <h1>Error loading weather data :(</h1>
   </div>
 
   <p>{{lastUpdated}}</p>
@@ -20,6 +23,7 @@ export default {
       ip: '' as any,
       icon: '' as any,
       lastUpdated: '' as any,
+      loadingStatus: 'loading' as any,
     }
   },
   async created() {
@@ -38,9 +42,16 @@ export default {
           await fetch(import.meta.env.VITE_URL_API + '/v1/weather/current?' + new URLSearchParams({
             location: position.coords.latitude + ',' + position.coords.longitude
           })).then(response => response.json()).then(data => {
-            this.weatherMessage = `It is ${data.current.temp_c} degrees in ${data.location.name} right now with ${data.current.condition.text.toLowerCase()} conditions.`;
-            this.icon = data.current.condition.icon;
-            this.lastUpdated = "Updated on: " + data.current.last_updated;
+            if(data.status) {
+              this.loadingStatus = 'error'
+            } else {
+              this.weatherMessage = `It is ${data.current.temp_c} degrees in ${data.location.name} right now with ${data.current.condition.text.toLowerCase()} conditions.`;
+              this.icon = data.current.condition.icon;
+              this.lastUpdated = "Updated on: " + data.current.last_updated;
+              this.loadingStatus = 'success'
+            }
+          }).catch(() => {
+            this.loadingStatus = 'error'
           })
         }, async () => {
 
@@ -51,6 +62,8 @@ export default {
         The wind is currently blowing at ${data.current.wind_kph} km/h in a ${data.current.wind_dir} direction.`;
             this.icon = data.current.condition.icon;
             this.lastUpdated = "Updated on: " + data.current.last_updated;
+          }).catch(() => {
+            this.loadingStatus = 'error'
           })
         });
       }
