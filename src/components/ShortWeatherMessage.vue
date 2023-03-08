@@ -26,6 +26,7 @@ export default {
       let data = await response.json();
       return data.ip
     },
+    //TODO switch to own backend to get weather data
     async getWeatherMessage() {
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
