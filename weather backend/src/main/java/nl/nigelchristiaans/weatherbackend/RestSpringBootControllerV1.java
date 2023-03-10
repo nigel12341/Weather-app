@@ -26,7 +26,7 @@ public class RestSpringBootControllerV1 {
     public Object getForecast(@RequestParam String location, @RequestParam(defaultValue = "7") int days) {
         final String baseUrl = "http://api.weatherapi.com/v1/forecast.json?key=" + apiKey;
         RestTemplate restTemplate = new RestTemplate();
-        String url = baseUrl + "&q=" + location + "&aqi=yes&days=" + days;
+        String url = baseUrl + "&q=" + location + "&aqi=yes&days=" + days + "&alerts=yes";
         return restTemplate.getForObject(url, Object.class);
     }
 
