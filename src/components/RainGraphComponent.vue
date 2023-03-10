@@ -1,8 +1,10 @@
 <template>
-  <h2>Rain per hour</h2>
-<div class="rainChart">
-  <canvas id="acquisitions"></canvas>
-</div>
+  <div class="container">
+    <h2 v-if="loadingStatus === 'success'">Rain per hour</h2>
+    <div class="rainChart">
+      <canvas id="acquisitions"></canvas>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,6 +17,7 @@ export default {
     return {
       weatherMessage: [] as any,
       ip: '' as any,
+      loadingStatus: 'loading'
     }
   },
   async mounted() {
@@ -114,6 +117,7 @@ export default {
           })).then(response => response.json()).then(data => {
             this.weatherMessage = data.forecast.forecastday[0].hour
             this.CreateBarGraph();
+            this.loadingStatus = 'success'
           }).catch(() => {
             this.loadingStatus = 'error'
           })
@@ -124,6 +128,8 @@ export default {
             days: '1'
           })).then(response => response.json()).then(data => {
             this.weatherMessage = data.forecast.forecastday[0].hour
+            this.CreateBarGraph();
+            this.loadingStatus = 'success'
           }).catch(() => {
             this.loadingStatus = 'error'
           })
